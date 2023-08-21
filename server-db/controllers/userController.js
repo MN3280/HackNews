@@ -3,10 +3,8 @@ const { signToken } = require('../helpers/jwt')
 const { User } = require('../models/index')
 
 class userController {
-
     static async readUser(req, res, next) {
         try {
-
             const user = await User.findAll()
             res.status(200).json({
                 message: user
@@ -21,8 +19,6 @@ class userController {
             const { username, email, password, phoneNumber, address } = req.body
 
             const created = await User.create({ username, email, password, phoneNumber, address, role: 'admin' })
-
-            // if (!created) throw { name: 'Validation Error' }
 
             res.status(201).json({
                 msg: {
@@ -43,8 +39,6 @@ class userController {
     static async login(req, res, next) {
         try {
             const { email, password } = req.body
-            // console.log(email, password);
-
             if (!email || !password) {
                 throw { name: "LoginError" }
             }
@@ -55,7 +49,6 @@ class userController {
                         email: email
                     }
                 })
-            // console.log(user);
 
             if (!user) throw { name: 'LoginError' }
 
@@ -69,8 +62,6 @@ class userController {
                 role: user.role
             })
 
-            // console.log(user);
-
             res.status(200).json({
                 access_token: token,
                 username: user.username,
@@ -81,11 +72,8 @@ class userController {
             })
         } catch (err) {
             next(err)
-
         }
     }
-
-
 }
 
 module.exports = userController

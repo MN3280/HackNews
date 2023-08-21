@@ -1,12 +1,6 @@
-import { useNavigate } from "react-router-dom";
-
 const Card = ({ title, content, Tags }) => {
-  // const navigate = useNavigate();
-
-  // console.log(Tags, "dari card");
   return (
     <>
-      {/* batas */}
       <div className="card w-[50vw] bg-[#f4f4f4] mt-3">
         <div className="card-body" style={{ cursor: "pointer" }}>
           <h2 className="card-title">{title}</h2>
@@ -22,7 +16,6 @@ const Card = ({ title, content, Tags }) => {
           </div>
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 };

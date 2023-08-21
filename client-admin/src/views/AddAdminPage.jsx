@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userRegisterSucess } from "../actions/actionCreator";
-import Swal from "sweetalert2";
 
 const AddAdminPage = () => {
   const dispatch = useDispatch();

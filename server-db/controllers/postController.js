@@ -2,14 +2,19 @@ const { Post, Tag, sequelize, User, Category } = require('../models/index')
 const { Op } = require("sequelize")
 const { slugify } = require('../helpers/createSlug')
 
-
 class PostController {
     static async readArticle(req, res, next) {
         try {
+            const where = {}
+            const { title } = req.query
+            if (title) {
+                where.title = { [Op.iLike]: `%${title}%` }
+            }
 
-
-            const result = await Post.findAll({ include: [Tag, User, Category], order: [["id", 'ASC']] })
-            // console.log(result);
+            const result = await Post.findAll({
+                where,
+                include: [Tag, User, Category], order: [["id", 'ASC']]
+            })
             res.status(200).json({
                 statusCode: 200,
                 msg: `Here is the data`,
@@ -17,10 +22,7 @@ class PostController {
             })
         } catch (err) {
             next(err)
-
         }
-
-
     }
 
     static async RenderPostDetail(req, res, next) {
@@ -71,14 +73,10 @@ class PostController {
         const t = await sequelize.transaction()
         try {
             const { title, content, imgUrl, categoryId, name, name1, name2 } = req.body
-            // console.log(req.body, "<<");
             const authorId = req.additionalData.userId
-
             const slug = slugify(title)
 
             const create = await Post.create({ title, slug, content, imgUrl, categoryId, authorId }, { transaction: t })
-
-            console.log(create, 'berhasil before createtags');
 
             if (!name || !name1 || !name2) throw { name: "nameLessThan3" }
 
@@ -89,10 +87,7 @@ class PostController {
             ],
                 { transaction: t })
 
-            console.log('after create tags', createTags)
-
             await t.commit()
-            // console.log(createTags);
             res.status(201).json({
                 statusCode: 201,
                 create,
@@ -105,10 +100,10 @@ class PostController {
     }
 
     static async editPost(req, res, next) {
+        const trx = await sequelize.transaction()
         try {
             const { id } = req.params
-            // console.log(id, "<id");
-            const { title, content, imgUrl, categoryId } = req.body
+            const { title, content, imgUrl, categoryId, name, name1, name2 } = req.body
             const authorId = req.additionalData.userId
 
             const edit = await Post.update(
@@ -116,14 +111,30 @@ class PostController {
                 {
                     where: {
                         id: id
-                    }
+                    },
+                    transaction: trx
                 })
-            // console.log(edit, "<<<<");
+            const destroy = await Tag.destroy({
+                where: {
+                    postId: id
+                },
+                transaction: trx
+            })
+
+            const updateTag = await Tag.bulkCreate([
+                { name: name, postId: id },
+                { name: name1, postId: id },
+                { name: name2, postId: id }
+            ],
+                { transaction: trx })
+            await trx.commit()
             res.status(200).json({
                 statusCode: 200,
                 msg: "Post updated successfully"
             })
         } catch (err) {
+            console.log(err);
+            await trx.rollback()
             next(err);
         }
     }

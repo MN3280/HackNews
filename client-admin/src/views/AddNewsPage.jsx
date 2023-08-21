@@ -14,15 +14,13 @@ const AddNewsPage = () => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  const { category } = useSelector((state) => state.category);
-
-  const { newsDetail } = useSelector((state) => state.news);
-  console.log(newsDetail, "news detail di page");
+  const { category } = useSelector((state) => state?.category);
+  const { newsDetail } = useSelector((state) => state?.news);
 
   const [addItem, setAddItem] = useState({
     title: "",
     content: "",
-    categoryId: 0,
+    categoryId: "",
     name: "",
     name1: "",
     name2: "",
@@ -56,27 +54,19 @@ const AddNewsPage = () => {
         name2: "",
         imgUrl: "",
       });
-
-      // await dispatch(fetchNewsSuccess());
-
-      // navigate("/");
     }
     await dispatch(fetchNewsSuccess());
-
     navigate("/");
   };
 
-  //pdhal task beda
   useEffect(() => {
     setAddItem(newsDetail);
-    //logic filter dsni nge fetch ny dsni
   }, [newsDetail]);
 
   useEffect(() => {
     dispatch(fetchNewsSuccess());
     dispatch(fetchCategorySuccess());
   }, []);
-
   return (
     <>
       <div className=" flex flex-col justify-center min-h-screen overflow-hidden ">
@@ -120,25 +110,26 @@ const AddNewsPage = () => {
             <div className="mb-2">
               <label
                 className="block text-sm font-semibold text-gray-800"
-                htmlFor="category"
-                id="category"
+                htmlFor="categoryId"
+                id="categoryId"
               >
                 Category:
               </label>
               <select
                 type="text"
-                id="category"
+                id="categoryId"
                 name="categoryId"
                 className="block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-indigo-500 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 onChange={inputForm}
-                defaultValue={
-                  newsDetail ? newsDetail?.response?.categoryId : ""
-                }
+                value={newsDetail ? newsDetail?.response?.categoryId : ""}
+                // value={addItem?.categoryId ?? ""}
               >
-                <option value={""}>Select Category</option>
-                {category.map((category) => (
+                <option disabled value={""}>
+                  Select Category
+                </option>
+                {category?.map((category) => (
                   <option value={category.id} key={category.id}>
-                    {category.name}
+                    {category?.name}
                   </option>
                 ))}
               </select>

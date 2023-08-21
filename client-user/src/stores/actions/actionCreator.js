@@ -1,8 +1,8 @@
 import { NEWS_SUCCESS } from "../actions/actionType"
 import { NEWS_PENDING } from "../actions/actionType"
 import { NEWS_BY_ID } from "../actions/actionType"
-// const baseUrl = "http://localhost:8000"
-const baseUrl = "https://newsportalp3.martiniblue.dev"
+const baseUrl = "http://localhost:8000"
+// const baseUrl = "https://newsportalp3.martiniblue.dev"
 
 export const fetchNewsSuccess = (payload) => ({
     type: NEWS_SUCCESS,
@@ -19,18 +19,20 @@ export const fetchNewsById = (payload) => ({
     payload
 })
 
-
-
-export const fetchNews = () => {
+export const fetchNews = (filter) => {
     return async (dispatch) => {
         try {
             dispatch(fetchNewsPending(true))
-
-            const response = await fetch(`${baseUrl}/posts`)
+            let query = ""
+            if (filter) {
+                const { title } = filter
+                if (title) {
+                    query = `title=${title}`
+                }
+            }
+            const response = await fetch(`${baseUrl}/posts?${query}`)
             const responseJson = await response.json()
-            console.log(responseJson.result, "<<response");
             dispatch(fetchNewsSuccess(responseJson.result))
-
         } catch (err) {
             console.log(err);
         } finally {
@@ -43,13 +45,9 @@ export const newsById = (id) => {
     return async (dispatch) => {
         try {
             dispatch(fetchNewsPending(true))
-            console.log("masuk", id);
-
             const response = await fetch(`${baseUrl}/posts/${id}`)
             const responseJson = await response.json()
-            // console.log(responseJson.response, "<<responsebyid");
             dispatch(fetchNewsById(responseJson.response))
-
         } catch (err) {
             console.log(err);
         } finally {

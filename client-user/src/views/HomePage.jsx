@@ -6,24 +6,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchNews } from "../stores/actions/actionCreator";
 
 const HomePage = () => {
-  const data = useSelector((state) => state.news.news);
-  const isLoading = useSelector((state) => state.news.isLoading);
-  const navigate = useNavigate();
+  const data = useSelector((state) => state?.news?.news);
+  const isLoading = useSelector((state) => state?.news?.isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log(data, "ini card");
     dispatch(fetchNews());
   }, []);
 
   if (isLoading) return <Loading />;
-  // console.log(data, "20");
-  // console.log(tags, "20");
 
   return (
     <>
       <div className="flex justify-center items-center flex-col gap-2 mt-8 ml-8">
-        {data.map((el, index) => {
+        {data?.map((el, index) => {
           return (
             <NavLink to={`/news/${el.id}`} key={el?.id}>
               <Card

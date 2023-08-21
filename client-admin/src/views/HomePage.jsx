@@ -19,7 +19,6 @@ const HomePage = () => {
     dispatch(fetchCategorySuccess());
   }, []);
   if (isLoading) return <Loading />;
-  // console.log(data, "home page");
 
   return (
     <>
@@ -28,7 +27,6 @@ const HomePage = () => {
           <button className="btn mr-3">Add New News</button>
         </NavLink>
       </div>
-      {/* ini */}
       <div className="flex flex-col justify-center items-center mt-5">
         <div className=" w-[90vw] ">
           <div className="overflow-x-auto">

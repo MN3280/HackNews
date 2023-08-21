@@ -4,7 +4,6 @@ import AddCategoryPage from "../views/AddCategoryPage";
 import AddAdminPage from "../views/AddAdminPage";
 import LoginForm from "../views/LoginForm";
 import Layout from "../components/Layout";
-
 import CategoryPage from "../views/CategoryPage";
 import { createBrowserRouter, redirect } from "react-router-dom";
 

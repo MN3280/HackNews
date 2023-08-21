@@ -17,9 +17,6 @@ const DetailPage = () => {
 
   if (isLoading) return <Loading />;
 
-  console.log(data, "detailpage");
-  // console.log(isLoading, "loading 27 detail");
-
   return (
     <>
       <div className="flex justify-center  my-10 ">

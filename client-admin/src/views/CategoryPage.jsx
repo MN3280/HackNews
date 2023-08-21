@@ -17,10 +17,7 @@ const CategoryPage = () => {
 
   if (isLoading) return <Loading />;
 
-  console.log(data, "ini dari cat page");
-
   const buttonDeleteCategory = (id) => {
-    console.log(id, "delete category");
     dispatch(deleteCategory(id));
   };
   return (

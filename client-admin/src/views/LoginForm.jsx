@@ -6,7 +6,6 @@ import {
   fetchNewsSuccess,
   userLoginSuccess,
 } from "../actions/actionCreator";
-import Swal from "sweetalert2";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -36,10 +35,6 @@ const LoginForm = () => {
       email: "",
       password: "",
     });
-    // Swal.fire({
-    //   icon: "success",
-    //   title: `Login success!`,
-    // });
     navigate("/");
   };
 
@@ -47,9 +42,6 @@ const LoginForm = () => {
     dispatch(fetchNewsSuccess());
     dispatch(fetchCategorySuccess());
   }, []);
-
-  // console.log(inputForm, "inputForm");
-  // console.log(submitForm, "submit");
 
   return (
     <>

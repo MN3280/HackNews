@@ -1,10 +1,7 @@
 import { ADD_NEWS_SUCCESS, ADD_USER_SUCCESS, FETCH_CATEGORY_PENDING, FETCH_CATEGORY_SUCCESS, FETCH_NEWS_SUCCESS, LOGIN_USER_SUCCESS, NEWS_BY_ID, NEWS_PENDING, UPDATE_NEWS_SUCCESS } from "./actionType";
-// const baseUrl = "http://localhost:8000"
-const baseUrl = "https://newsportalp3.martiniblue.dev"
+const baseUrl = "http://localhost:8000"
+// const baseUrl = "https://newsportalp3.martiniblue.dev"
 import Swal from "sweetalert2";
-
-
-
 
 export const fetchNews = (news) => ({
     type: FETCH_NEWS_SUCCESS,
@@ -58,7 +55,6 @@ export const deleteNews = (id) => {
 }
 
 //add News
-
 export const addNews = (news) => ({
     type: ADD_NEWS_SUCCESS,
     payload: news
@@ -67,7 +63,6 @@ export const addNews = (news) => ({
 export const addNewsSuccess = (data) => {
     return async (dispatch) => {
         try {
-            // console.log("masok")
             const response = await fetch(`${baseUrl}/posts/createPost`, {
                 method: "POST",
                 headers: {
@@ -76,26 +71,20 @@ export const addNewsSuccess = (data) => {
                 },
                 body: JSON.stringify(data)
             })
-            console.log(response, "res addnews");
             const responseJson = await response.json();
-            console.log(responseJson, "JSON ADD NEWS");
 
             if (response.status === 400) {
                 Swal.fire({
                     icon: "error",
                     title: `${responseJson.message}`,
                 });
-
             } else {
                 Swal.fire({
                     icon: "success",
                     title: `News Added!`,
                 });
                 dispatch(addNews(responseJson))
-
             }
-
-
         } catch (err) {
             console.log(err);
             Swal.fire({
@@ -106,7 +95,6 @@ export const addNewsSuccess = (data) => {
     }
 }
 
-
 //edit news
 export const editNews = (news, tags) => ({
     type: NEWS_BY_ID,
@@ -115,7 +103,6 @@ export const editNews = (news, tags) => ({
 })
 
 //get one by id untuk edit (get)
-
 export const editNewsById = (id) => {
     return async (dispatch) => {
         try {
@@ -126,12 +113,8 @@ export const editNewsById = (id) => {
                     "access_token": localStorage.getItem("access_token")
                 }
             })
-            // console.log(response, "ini response edit");
             const responseJson = await response.json();
-            // console.log(responseJson, "res json 96");
             dispatch(editNews(responseJson))
-
-
         } catch (err) {
             console.log(err);
         }
@@ -147,7 +130,7 @@ export const editNewsPost = (news) => ({
 export const editNewsSuccess = (id, data = {}) => {
     return async (dispatch) => {
         try {
-            // console.log(data, 'dataCreator')
+            console.log(data, 'dataCreator')
             const response = await fetch(`${baseUrl}/posts/${id}`, {
                 method: "PUT",
                 headers: {
@@ -156,15 +139,12 @@ export const editNewsSuccess = (id, data = {}) => {
                 },
                 body: JSON.stringify(data)
             })
-            // console.log(response, "res edit news success");
             const responseJson = await response.json()
-            // console.log(responseJson, "res joson 120");
             Swal.fire({
                 icon: "success",
                 title: `News Edited!`,
             });
             dispatch(editNews(responseJson))
-
         } catch (err) {
             console.log(err);
             Swal.fire({
@@ -177,7 +157,6 @@ export const editNewsSuccess = (id, data = {}) => {
 
 
 //category
-
 export const fetchCategory = (category) => ({
     type: FETCH_CATEGORY_SUCCESS,
     payload: category
@@ -192,7 +171,6 @@ export const fetchCategorySuccess = () => {
     return async (dispatch) => {
         try {
             dispatch(fetchCategoryPending(true))
-
             const response = await fetch(`${baseUrl}/categories`)
             const responseJson = await response.json()
             dispatch(fetchCategory(responseJson.result))
@@ -200,9 +178,7 @@ export const fetchCategorySuccess = () => {
             console.log(err);
         } finally {
             dispatch(fetchCategoryPending(false))
-
         }
-
     }
 }
 
@@ -229,7 +205,6 @@ export const deleteCategory = (id) => {
 
 
 //add category 
-
 export const addCategory = (category) => ({
     type: ADD_CATEGORY_SUCCESS,
     payload: category
@@ -279,7 +254,6 @@ export const userLoginSuccess = (data) => {
                 },
                 body: JSON.stringify(data)
             })
-
             dispatch(userLogin(response))
             Swal.fire({
                 icon: "success",
@@ -297,7 +271,6 @@ export const userLoginSuccess = (data) => {
                     title: `Please check your input!`,
                 });
             }
-
         } catch (err) {
             console.log(err);
             Swal.fire({
@@ -307,7 +280,6 @@ export const userLoginSuccess = (data) => {
         }
     }
 }
-
 
 export const userRegister = (user) => ({
     type: ADD_USER_SUCCESS,
@@ -326,11 +298,8 @@ export const userRegisterSucess = (data) => {
                 body: JSON.stringify(data)
             })
 
-            console.log(response, "ini response register 170");
             if (response.status === 201) {
-
                 const responseJson = await response.json();
-                console.log(responseJson, "ini response json 251");
                 Swal.fire({
                     icon: "success",
                     title: `Admin Created!`,

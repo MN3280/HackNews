@@ -1,6 +1,5 @@
 import { ADD_NEWS_SUCCESS, FETCH_NEWS_SUCCESS, NEWS_BY_ID, NEWS_PENDING, REMOVE_NEWS_SUCCESS, UPDATE_NEWS_SUCCESS } from "../actions/actionType"
 
-
 const initialState = {
     news: [],
     newsDetail: [],
@@ -9,7 +8,6 @@ const initialState = {
 
 const newsReducer = (state = initialState, action) => {
     if (action.type === FETCH_NEWS_SUCCESS) {
-        // console.log("masuk newsReducer line12", action.payload);
         return {
             ...state,
             news: action.payload,
@@ -26,8 +24,6 @@ const newsReducer = (state = initialState, action) => {
             newsDetail: action.payload,
         }
     } else if (action.type === ADD_NEWS_SUCCESS) {
-        console.log("masuk addnews 30", action.payload);
-
         return {
             ...state,
             news: action.payload
@@ -39,8 +35,6 @@ const newsReducer = (state = initialState, action) => {
 
         }
     } else if (action.type === UPDATE_NEWS_SUCCESS) {
-        console.log("masuk addnews 30", action.payload);
-
         return {
             ...state,
             newsDetail: action.payload

@@ -5,7 +5,6 @@ class CategoryController {
     static async readCategory(req, res, next) {
         try {
             const result = await Category.findAll()
-            // console.log(result);
             res.status(200).json({
                 statusCode: 200,
                 msg: `Here is the data`,
@@ -20,8 +19,6 @@ class CategoryController {
         try {
             const { name } = req.body
             const create = await Category.create({ name })
-
-            console.log(create, "<<<<");
             res.status(201).json({
                 statusCode: 201,
                 create
@@ -48,10 +45,6 @@ class CategoryController {
             next(err);
         }
     }
-
-
-
-
 }
 
 module.exports = CategoryController
